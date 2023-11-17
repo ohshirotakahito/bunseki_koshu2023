@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # データの読み込み
-data = pd.read_csv('Climate_Data.csv')
+data = pd.read_csv('data/Climate_Data.csv')
 
 # データの概観
 print(data.describe())
