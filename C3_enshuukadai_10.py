@@ -75,9 +75,9 @@ model.fit(X_train, y_train, epochs=100, batch_size=10, verbose=1)
 mse = model.evaluate(X_test, y_test, verbose=0)
 print(f"Mean Squared Error: {mse}")
 
-def predict_durability(model, scaler, mixture_ratios):
-    # 混合比率を含むDataFrameを作成
-    mixture_df = pd.DataFrame([mixture_ratios], columns=['Mixture_Ratio_A_Percent', 'Mixture_Ratio_B_Percent', 'Mixture_Ratio_C_Percent'])
+    # 混合比率を含むDataFrameを作成（元の特徴量と同じ順序で）
+    mixture_data = [mixture_ratios.get(col, features[col].mean()) for col in features.columns]
+    mixture_df = pd.DataFrame([mixture_data], columns=features.columns)
     
     # 残りの特徴量を平均値で埋める
     for col in features.columns:
