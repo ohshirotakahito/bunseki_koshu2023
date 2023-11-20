@@ -60,9 +60,11 @@ mse = mean_squared_error(y_test, predictions)
 print(f"Mean Squared Error: {mse}")
 
 # 最適な混合比率を求める関数
-def optimize_mixture_ratio(x):
-    # 混合比率を保持するDataFrameを作成
-    mixture_df = pd.DataFrame([x], columns=['Mixture_Ratio_A_Percent', 'Mixture_Ratio_B_Percent', 'Mixture_Ratio_C_Percent'])
+def optimize_mixture_ratio(mixture_ratios):
+    # 混合比率を含むDataFrameを作成（元の特徴量と同じ順序で）
+    mixture_data = {col: mixture_ratios[i] if i < len(mixture_ratios) else features[col].mean() for i, col in enumerate(features.columns)}
+    mixture_df = pd.DataFrame([mixture_data])
+    
     # 残りの特徴量を平均値で埋める
     for col in features.columns:
         if col not in mixture_df.columns:
@@ -79,10 +81,9 @@ result = minimize(optimize_mixture_ratio, initial_guess, constraints=constraints
 optimal_mixture = result.x
 
 # 最適な混合比率に基づく耐久性の予測
-optimal_mixture_df = pd.DataFrame([optimal_mixture], columns=['Mixture_Ratio_A_Percent', 'Mixture_Ratio_B_Percent', 'Mixture_Ratio_C_Percent'])
-for col in features.columns:
-    if col not in optimal_mixture_df.columns:
-        optimal_mixture_df[col] = features[col].mean()
+optimal_mixture_data = {col: optimal_mixture[i] if i < len(optimal_mixture) else features[col].mean() for i, col in enumerate(features.columns)}
+optimal_mixture_df = pd.DataFrame([optimal_mixture_data])
+
 predicted_durability = model.predict(optimal_mixture_df)[0]
 
 print(f"Optimal Mixture Ratios: A: {optimal_mixture[0]:.2f}%, B: {optimal_mixture[1]:.2f}%, C: {optimal_mixture[2]:.2f}%")
