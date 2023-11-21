@@ -4,13 +4,6 @@ Created on Fri Nov 17 23:53:21 2023
 
 @author: toshiro
 """
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
-from scipy.optimize import minimize
-
 # =============================================================================
 # 9.機械学習(ランダムフォレス)を使用した新規材料の耐久度予測
 # 背景
@@ -39,6 +32,13 @@ from scipy.optimize import minimize
 # 最適化アルゴリズムを使用して、耐久性を最大化する材料の混合比率を求める。
 # 最適な混合比率を用いて、新規材料の耐久度を予測する。
 # =============================================================================
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+from scipy.optimize import minimize
+
 
 # データセットの読み込み
 df = pd.read_csv('data/material_science_dataset1.csv')
