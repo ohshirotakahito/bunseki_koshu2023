@@ -46,7 +46,7 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 
 # データセットの読み込み
-df = pd.read_csv('data/material_science_dataset3.csv')
+df = pd.read_csv('data/material_science_dataset2.csv')
 
 # 特徴量とターゲットの選択
 features = df.drop(['Existing_Durability_Years'], axis=1)
@@ -75,6 +75,7 @@ model.fit(X_train, y_train, epochs=100, batch_size=10, verbose=1)
 mse = model.evaluate(X_test, y_test, verbose=0)
 print(f"Mean Squared Error: {mse}")
 
+def predict_durability(model, scaler, mixture_ratios):
     # 混合比率を含むDataFrameを作成（元の特徴量と同じ順序で）
     mixture_data = [mixture_ratios.get(col, features[col].mean()) for col in features.columns]
     mixture_df = pd.DataFrame([mixture_data], columns=features.columns)
